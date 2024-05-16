@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import Navbar from "../Components/Navbar";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Signup = () => {
 
   const navigate = useNavigate();
@@ -22,7 +23,16 @@ const Signup = () => {
   
   const handleSubmit=  async(event) => {
     event.preventDefault();
-    
+    try {
+      const response  = await axios.post("http://localhost:3500/api/v1/signup",signupData,{
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
 }
   return (
     <div className="bg-black w-full h-[100vh]">

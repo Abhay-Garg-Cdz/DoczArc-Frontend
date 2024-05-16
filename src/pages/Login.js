@@ -1,8 +1,12 @@
 import { React, useState } from "react";
 import Navbar from "../Components/Navbar";
 import { useNavigate } from "react-router-dom";
+import { useContext } from 'react'
+import AppContext from '../context/AppContext'
+import axios from "axios";
 
 const Login = () => {
+  const{isLogin,setIsLogin} = useContext(AppContext);
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
@@ -21,8 +25,23 @@ const Login = () => {
     navigate("/forgot-password");
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
+    try {
+      const response  = await axios.post("http://localhost:3500/api/v1/login",loginData,{
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    if(response.status === 201) {
+      setIsLogin(true);
+      navigate("/");
+    }
+    // console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
+
   };
 
 
@@ -74,7 +93,7 @@ const Login = () => {
                 />
                 <button
                   onClick={forgotPasswordHandler}
-                  className=" text-sm ml-16 text-blue-500"
+                  className=" text-sm ml-28 text-blue-500"
                 >
                   Forgot password?
                 </button>
