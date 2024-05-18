@@ -2,15 +2,20 @@ import { React, useState } from "react";
 import Navbar from "../Components/Navbar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from 'react-hot-toast';
+import { useContext } from 'react'
+import AppContext from '../context/AppContext'
+
 const Signup = () => {
 
   const navigate = useNavigate();
-  
+  const{setIsLogin,setUserName} = useContext(AppContext);
   const [signupData,setSignupData] = useState({
     userName:"",
     email:"",
     password:""
   });
+  
 
   const handleChange = (event)=>{
     event.preventDefault();
@@ -22,16 +27,45 @@ const Signup = () => {
  
   
   const handleSubmit=  async(event) => {
+
     event.preventDefault();
+
+    if(!signupData.userName ){
+      toast.error("Please enter the Username");
+      return;
+    }
+    else if(!signupData.email ){
+      toast.error("Please enter the Email ");
+      return;
+    }
+    else if(!signupData.password ){
+      toast.error("Please enter the Password");
+      return;
+    }
+
     try {
       const response  = await axios.post("http://localhost:3500/api/v1/signup",signupData,{
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "withCredentials": true
       }
     })
-    console.log(response)
-    } catch (error) {
-      console.log(error)
+
+
+    if(response.status === 201){
+      toast.success(response.data.message);
+      setIsLogin(true);
+      setUserName(signupData.userName.toLowerCase());
+      toast.success("Logged In Successfully");
+
+      navigate('/docs');
+    }
+    else if(response.status ===203){
+      toast.error(response.data.message);
+    }
+    // console.log(response)
+  } catch (error) {
+      // console.log(error)
     }
 }
   return (
@@ -42,7 +76,7 @@ const Signup = () => {
           DoczArc
         </h2>
         <p className="text-neutral-300 text-sm max-w-sm mt-2 ">
-          let's secure your dcuments
+          let's secure your documents
         </p>
         <form className="my-8" onSubmit={handleSubmit}>
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
@@ -101,9 +135,7 @@ const Signup = () => {
               />
             </div>
           </div>
-          <span className="text-neutral-300 text-sm max-w-sm mt-2 " >
-            
-          </span>
+          
 
           <button
             className="  bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900

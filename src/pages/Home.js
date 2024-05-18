@@ -15,14 +15,14 @@ const Home = () => {
         {/* section-1 */}
         <div className="h-[500px] p-4 relative ">
           <img className="rounded-xl h-[450px] w-full " src={image} alt="" />
-          <div className=" text-8xl -bottom-1 text-white absolute left-16 flex right-32  bg-black rounded-2xl  py-4 px-0 items-center  justify-center ">
-            Safeguard Your Documents Online
+          <div className=" text-6xl -bottom-1 text-white absolute left-24 flex right-32  bg-black rounded-2xl  py-4 px-0 items-center  justify-center ">
+            Store Your Documents Online
           </div>
         </div>
         {/* section-2 */}
         <div className="p-4 ml-36 ">
           <div className="flex flex-col w-[80%]  bg-black text-white rounded-xl bg-gradient-to-r from-gray-500 to-gray-300 p-10 mt-5 ">
-            <div className="text-4xl  text-black p-2">
+            <div className="text-3xl  text-black p-2">
               <div className="py-3 ml-10">
                 Welcome to our secure document vault!{" "}
               </div>

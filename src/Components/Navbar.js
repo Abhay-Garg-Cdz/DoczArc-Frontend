@@ -7,7 +7,7 @@ import { FileStack } from "lucide-react";
 const Navbar = () => {
   const { isLogin, setIsLogin } = useContext(AppContext);
   return (
-    <div className="h-[10vh]  bg-black  p-4 gap-64 shadow-[-1px_1px_10px_3px_#4299e1] flex flex-row px-5 mx-auto items-center justify-around rounded-xl  text-white text-xl  w-[60%]">
+    <div className="h-[10vh] mt-4 bg-black  p-4 gap-64 shadow-[-1px_1px_10px_3px_#4299e1] flex flex-row px-5 mx-auto items-center justify-around rounded-xl  text-white text-xl  w-[60%]">
       <div className="  flex flex-row">
         <Link to="/">
           <img className="h-[50px]  w-[50px]" src={logo} alt="" />

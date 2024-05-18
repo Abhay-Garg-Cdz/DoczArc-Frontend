@@ -4,6 +4,8 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import ForgotPassword from './pages/ForgotPassword'
 import MyDocument from "./pages/MyDocument";
+
+import AddDocument from "./pages/AddDocument";
 // import { useEffect,useContext } from "react";
 // import AppContext from './context/AppContext'
 function App() {
@@ -28,6 +30,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/signup" element={<Signup/>}/>
+        <Route path="/addDocument" element={<AddDocument/>}/>
       </Routes>
 
     </div>

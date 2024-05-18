@@ -1,12 +1,15 @@
 import { React, useState } from "react";
 import Navbar from "../Components/Navbar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from 'react'
 import AppContext from '../context/AppContext'
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 const Login = () => {
-  const{isLogin,setIsLogin} = useContext(AppContext);
+  
+
+  const{setIsLogin,setUserName} = useContext(AppContext);
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
@@ -21,12 +24,20 @@ const Login = () => {
     });
   };
 
-  const forgotPasswordHandler = (event) => {
-    navigate("/forgot-password");
-  };
+  
 
   const handleSubmit = async(event) => {
     event.preventDefault();
+
+    if(!loginData.email ){
+      toast.error("Please enter the Email ");
+      return;
+    }
+    else if(!loginData.password ){
+      toast.error("Please enter the Password");
+      return;
+    }
+
     try {
       const response  = await axios.post("http://localhost:3500/api/v1/login",loginData,{
       headers: {
@@ -35,7 +46,13 @@ const Login = () => {
     })
     if(response.status === 201) {
       setIsLogin(true);
-      navigate("/");
+      // console.log(response.data);
+      setUserName(response.data.userName);
+      toast.success("Logged In successfully")
+      navigate("/docs");
+    }
+    else if(response.status ===203){
+      toast.error(response.data.message);
     }
     // console.log(response)
     } catch (error) {
@@ -44,6 +61,7 @@ const Login = () => {
 
   };
 
+  
 
  
 
@@ -90,16 +108,22 @@ const Login = () => {
                   onChange={handleChange}
                   placeholder="*************"
                   type="password"
-                />
-                <button
-                  onClick={forgotPasswordHandler}
-                  className=" text-sm ml-28 text-blue-500"
-                >
-                  Forgot password?
-                </button>
+                  />
+                
               </div>
             </div>
-
+            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+              <div className="flex flex-col space-y-2 w-full">
+                <Link to={'/forgot-password'}>
+                <label  type="text"
+                  className=" text-sm ml-28 text-blue-500 hover:text-green-600 "
+                >
+                  Forgot password?
+                </label>
+                </Link>
+              </div>
+            </div>
+            
             <button
               className="  bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900
          to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium 
@@ -109,7 +133,7 @@ const Login = () => {
             >
               Login &rarr;
             </button>
-            <button onClick = {()=>navigate('/signup')} className="text-blue-300 text-xl max-w-sm mt-2 ml-40 ">
+            <button onClick = {()=>navigate('/signup')} className="text-blue-500 text-xl max-w-sm mt-2 ml-40 ">
           Signup 
             </button>
           </form>
